@@ -1,7 +1,5 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-// import './App.css';
-// Import necessary components from Semantic UI React
 import { Table, Button, Container, Header } from "semantic-ui-react";
 
 import { API_URL } from "../constants/URL";
@@ -21,31 +19,19 @@ const Read = () => {
 
   const deleteUser = async (id) => {
     await axios.delete(API_URL + id);
-    await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
+
     callgetAPI();
   };
 
   const callgetAPI = async () => {
-    const taskapi = await axios.get("https://jsonplaceholder.typicode.com/users");
     const resp = await axios.get(API_URL);
-    const combinedData = [...taskapi.data, ...resp.data];
+    const combinedData = [...resp.data];
 
     setAPIData(combinedData);
-    
   };
 
   const adduser = async () => {
     try {
-      // Fetch data from the original API
-      const response = await axios.get("https://jsonplaceholder.typicode.com/users");
-      const userData = response.data; // For simplicity, taking the first user from the response
-
-      // Post user data to the mock API
-      const mockApiResponse = await axios.post(API_URL, userData);
-
-      console.log("Mock API Response:", mockApiResponse.data);
-
-      // After posting to the mock API, you can navigate or perform other actions
       navigate("/");
     } catch (error) {
       console.error("Error adding user:", error.message);
@@ -57,9 +43,9 @@ const Read = () => {
 
   return (
     <>
-    <Container className="TableContainer">
-  <Header as="h2">User List</Header>
-  <Table celled inverted striped>
+      <Container className="TableContainer">
+        <Header as="h2">User List</Header>
+        <Table celled inverted striped>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>ID</Table.HeaderCell>
@@ -95,12 +81,20 @@ const Read = () => {
                   {data.email}
                 </Table.Cell>
                 <Table.Cell>
-                  <Button color="red"  className="deleteBtn"  onClick={() => deleteUser(data.id)}>
+                  <Button
+                    color="red"
+                    className="deleteBtn"
+                    onClick={() => deleteUser(data.id)}
+                  >
                     Delete
                   </Button>
                 </Table.Cell>
                 <Table.Cell>
-                  <Button color="teal"  className="updateBtn" onClick={() => updateUser(data)}>
+                  <Button
+                    color="teal"
+                    className="updateBtn"
+                    onClick={() => updateUser(data)}
+                  >
                     Update
                   </Button>
                 </Table.Cell>

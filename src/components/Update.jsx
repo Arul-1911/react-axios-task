@@ -7,15 +7,6 @@ import { API_URL } from "../constants/URL";
 const Update = () => {
   const navigate = useNavigate();
 
-  const updatesubmit = async () => {
-    await axios.put(API_URL + id, {
-      name,
-      username,
-      email,
-    });
-    navigate("/read");
-  };
-
   const [id, setid] = useState("");
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -27,6 +18,34 @@ const Update = () => {
     setUsername(localStorage.getItem("username"));
     setEmail(localStorage.getItem("email"));
   }, []);
+
+  const updatesubmit = async () => {
+    try {
+      // updated values based on user input
+      const updatedName = name;
+      const updatedUsername = username;
+      const updatedEmail = email;
+
+      // Send updated user details to your mock API (API_URL)
+      const mockApiResponse = await axios.put(`${API_URL}${id}`, {
+        name: updatedName,
+        username: updatedUsername,
+        email: updatedEmail,
+      });
+
+      //  confirmation to the user.
+      console.log(
+        "User details updated successfully in mock API:",
+        mockApiResponse.data
+      );
+
+      // Redirect to the read page
+      navigate("/read");
+    } catch (error) {
+      // Handle errors
+      console.error("Error updating user:", error.message);
+    }
+  };
 
   const updatetoback = () => {
     navigate("/read");
